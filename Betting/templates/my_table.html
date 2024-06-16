@@ -1,0 +1,13 @@
+<!-- myapp/templates/myapp/my_table.html -->
+{% load render_table from django_tables2 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ScoreBoard</title>
+</head>
+<body>
+    <h1>ScoreBoard</h1>
+    {% render_table data %}
+</body>
+</html>
