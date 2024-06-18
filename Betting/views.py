@@ -6,7 +6,7 @@ from turtle import title
 from unittest import result
 from django.shortcuts import render
 from .models import Person, Match, Prediction, Team
-from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , RetrieveUpdateAPIView, ListCreateAPIView
+from rest_framework.generics import UpdateAPIView , ListAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView
 from .serializers import TeamSerializer, MatchSerializer, PersonSerializer, PredictionSerializer
 
 def my_table_view(request):
@@ -18,7 +18,7 @@ class PersonListAPIView(ListAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
 
-class PersonAPIView(RetrieveUpdateAPIView):
+class PersonAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
     lookup_field = 'name'
@@ -26,6 +26,12 @@ class PersonAPIView(RetrieveUpdateAPIView):
 class MatchAPIView(ListCreateAPIView):
     queryset = Match.objects.all()
     serializer_class = MatchSerializer
+    filterset_fields = ['status']
+
+class MatchUpdateAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Match.objects.all()
+    serializer_class = MatchSerializer
+    filterset_fields = ['status']
 
 class TeamAPIView(ListCreateAPIView):
     queryset = Team.objects.all()
@@ -34,3 +40,4 @@ class TeamAPIView(ListCreateAPIView):
 class PredictionAPIView(ListCreateAPIView):
     queryset = Prediction.objects.all()
     serializer_class = PredictionSerializer
+    filterset_fields = ['person']
