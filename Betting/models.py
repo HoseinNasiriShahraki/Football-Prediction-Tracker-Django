@@ -57,7 +57,7 @@ class Match(models.Model):
 
 class Person(models.Model):
 
-    name = models.CharField(_("Name"), max_length=50)
+    name = models.CharField(_("Name"), max_length=50, unique=True)
 
     points = models.IntegerField(_("points"), blank=True, default=0)
     
@@ -157,10 +157,10 @@ def calculate_points():
             else:
                 winner = 'none'
 
-            if pred_t1 == result_t1 and pred_t2 == result_t2:
+            if pred_t1 == result_t1 and pred_t2 == result_t2 and pred_winner == winner:
                 person.points += 10
                 person.save()
-            elif abs(pred_t1 - pred_t2) == abs(result_t1 - result_t2):
+            elif abs(pred_t1 - pred_t2) == abs(result_t1 - result_t2) and pred_winner == winner:
                 person.points += 7
                 person.save()
             elif winner == pred_winner:

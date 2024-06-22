@@ -1,9 +1,3 @@
-from cgitb import reset
-from os import name
-from re import Match
-# from tkinter import W
-# from turtle import title
-from unittest import result
 from django.shortcuts import render
 from .models import Person, Match, Prediction, Team
 from rest_framework.generics import UpdateAPIView , ListAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView

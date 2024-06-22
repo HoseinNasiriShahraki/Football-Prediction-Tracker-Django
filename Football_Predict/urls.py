@@ -27,5 +27,5 @@ urlpatterns = [
     path('predictions/', PredictionAPIView.as_view(), name='Predictions'),
     path('teams/', TeamAPIView.as_view(), name='Teams'),
     path('matches/', MatchAPIView.as_view(), name='Matches'),
-    path('matches/<str:status>/<int:pk>/', MatchUpdateAPIView.as_view(), name='Match Update'),
+    path('matches/<int:pk>/', MatchUpdateAPIView.as_view(), name='Match Update'),
 ]
