@@ -2,8 +2,12 @@ from django.shortcuts import render
 from .models import Person, Match, Prediction, Team
 from rest_framework.generics import UpdateAPIView , ListAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView
 from .serializers import TeamSerializer, MatchSerializer, PersonSerializer, PredictionSerializer
+from .models import calculate_points
+
+calculate_points()
 
 def my_table_view(request):
+    calculate_points()
     data = Person.objects.all()
     return render(request, 'my_table.html', {'data': data})
 

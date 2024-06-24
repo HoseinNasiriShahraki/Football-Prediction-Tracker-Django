@@ -1,10 +1,12 @@
 <!-- myapp/templates/myapp/my_table.html -->
 {% load render_table from django_tables2 %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>ScoreBoard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <h1>ScoreBoard</h1>
