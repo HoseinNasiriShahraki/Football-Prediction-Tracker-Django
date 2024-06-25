@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Betting.views import my_table_view, PersonAPIView, PredictionAPIView, TeamAPIView, MatchAPIView, PersonListAPIView, MatchUpdateAPIView
+from Betting.views import my_table_view, PersonAPIView, PredictionAPIView, TeamAPIView, MatchAPIView, PersonListAPIView, MatchUpdateAPIView, plot_view
 
 
 urlpatterns = [
@@ -28,4 +28,5 @@ urlpatterns = [
     path('teams/', TeamAPIView.as_view(), name='Teams'),
     path('matches/', MatchAPIView.as_view(), name='Matches'),
     path('matches/<int:pk>/', MatchUpdateAPIView.as_view(), name='Match Update'),
+    path('plot/', plot_view, name='plot_view'),
 ]

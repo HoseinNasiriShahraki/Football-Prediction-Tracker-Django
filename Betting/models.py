@@ -62,7 +62,7 @@ class Person(models.Model):
 
     points = models.IntegerField(_("points"), blank=True, default=0)
 
-    history = models.CharField(_("history points"), max_length=5000,default=0)
+    history = models.CharField(_("history points"), max_length=5000,default='0,')
 
     
     
@@ -124,6 +124,12 @@ class Prediction(models.Model):
     # TODO: Define custom methods here
 
 
+# preds = Prediction.objects.all()
+# for pred in preds:
+#     pred.calculated = False
+#     pred.save()
+
+
 def calculate_points():
     from .models import Prediction, Match
     from .models import Person
@@ -164,13 +170,19 @@ def calculate_points():
 
             if pred_t1 == result_t1 and pred_t2 == result_t2 and pred_winner == winner:
                 person.points += 10
+                person.history += str(person.points)+','
                 person.save()
 
             elif abs(pred_t1 - pred_t2) == abs(result_t1 - result_t2) and pred_winner == winner:
                 person.points += 7
+                person.history += str(person.points)+','
                 person.save()
             elif winner == pred_winner:
                 person.points += 5
+                person.history += str(person.points)+','
+                person.save()
+            else:
+                person.history += str(person.points)+','
                 person.save()
             
             pred.calculated = True
