@@ -48,6 +48,7 @@ class Match(models.Model):
     # TODO: Define fields here
 
     class Meta:
+        
         """Meta definition for MODELNAMEMatch"""
 
         verbose_name = 'Match'
@@ -60,6 +61,10 @@ class Person(models.Model):
     name = models.CharField(_("Name"), max_length=50, unique=True)
 
     points = models.IntegerField(_("points"), blank=True, default=0)
+
+    history = models.CharField(_("history points"), max_length=5000,default=0)
+
+    
     
 
     class Meta:
@@ -160,6 +165,7 @@ def calculate_points():
             if pred_t1 == result_t1 and pred_t2 == result_t2 and pred_winner == winner:
                 person.points += 10
                 person.save()
+
             elif abs(pred_t1 - pred_t2) == abs(result_t1 - result_t2) and pred_winner == winner:
                 person.points += 7
                 person.save()
