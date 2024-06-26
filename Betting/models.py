@@ -39,6 +39,8 @@ class Match(models.Model):
     def save(self, *args, **kwargs):
         self.title = self.Team_1.abb + ' : ' + self.Team_2.abb
         super(Match, self).save(*args, **kwargs)
+
+    
     
 
     def __str__(self):
@@ -77,14 +79,6 @@ class Person(models.Model):
         return self.name
 
 
-    # def get_absolute_url(self):
-    #     """Return absolute url for Person."""
-    #     return ('')
-
-    # TODO: Define custom methods here
-
-
-
 
 
 class Prediction(models.Model):
@@ -96,8 +90,15 @@ class Prediction(models.Model):
     match = models.ForeignKey('Match', related_name='title+', on_delete=models.CASCADE)
     Team_1_pred = models.PositiveSmallIntegerField(_("Team 1 Prediction"))
     Team_2_pred = models.PositiveSmallIntegerField(_("Team 2 Prediction"))
+    persons_name = models.CharField(_("Predictor's name"), max_length=50, default="")
+
 
     calculated = models.BooleanField(_("Is Calculated"), default=False)
+
+    # def save(self, *args, **kwargs):
+        # self.persons_name = self.person.name
+        # super(Prediction, self).save(*args, **kwargs)
+
 
 
 
@@ -110,24 +111,6 @@ class Prediction(models.Model):
         verbose_name = 'Prediction'
         verbose_name_plural = 'Predictions'
 
-    # def __str__(self):
-    #     return self.match.get_title()
-
-    # def save(self):
-    #     """Save method for MODELNAME."""
-    #     pass
-
-    # def get_absolute_url(self):
-    #     """Return absolute url for MODELNAME."""
-    #     return ('')
-
-    # TODO: Define custom methods here
-
-
-# preds = Prediction.objects.all()
-# for pred in preds:
-#     pred.calculated = False
-#     pred.save()
 
 
 def calculate_points():
@@ -189,3 +172,12 @@ def calculate_points():
             pred.save()
 
 calculate_points()
+
+def Pred_name_save():
+    from .models import Prediction, Person
+    preds = Prediction.objects.all()
+    for pred in preds:
+        pred.persons_name = pred.person.name
+        pred.save()
+
+Pred_name_save() 
