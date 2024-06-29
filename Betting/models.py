@@ -91,6 +91,8 @@ class Prediction(models.Model):
     Team_1_pred = models.PositiveSmallIntegerField(_("Team 1 Prediction"))
     Team_2_pred = models.PositiveSmallIntegerField(_("Team 2 Prediction"))
     persons_name = models.CharField(_("Predictor's name"), max_length=50, default="")
+    match_title = models.CharField(_("Match Title"), max_length=50, default="")
+
 
 
     calculated = models.BooleanField(_("Is Calculated"), default=False)
@@ -178,6 +180,7 @@ def Pred_name_save():
     preds = Prediction.objects.all()
     for pred in preds:
         pred.persons_name = pred.person.name
+        pred.match_title = pred.match.title
         pred.save()
 
 Pred_name_save() 

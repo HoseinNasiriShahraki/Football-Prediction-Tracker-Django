@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Person, Match, Prediction, Team
+from rest_framework import filters
 from rest_framework.generics import UpdateAPIView , ListAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView
 from .serializers import TeamSerializer, MatchSerializer, PersonSerializer, PredictionSerializer
 from .models import calculate_points
@@ -189,6 +190,9 @@ class MatchAPIView(ListCreateAPIView):
     queryset = Match.objects.all()
     serializer_class = MatchSerializer
     filterset_fields = ['status']
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
+
 
 class MatchUpdateAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Match.objects.all()
