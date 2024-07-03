@@ -4,13 +4,16 @@ from rest_framework import filters
 from rest_framework.generics import UpdateAPIView , ListAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView
 from .serializers import TeamSerializer, MatchSerializer, PersonSerializer, PredictionSerializer
 from .models import calculate_points
+from .tables import MyTable
 
 calculate_points()
 
 def my_table_view(request):
     calculate_points()
-    data = Person.objects.all()
-    return render(request, 'my_table.html', {'data': data})
+    table = MyTable(Person.objects.all())
+    return render(request, 'my_table.html', {'table': table})
+
+
 
 
 import matplotlib.pyplot as plt
@@ -39,12 +42,18 @@ def plot_view(request):
     plt.figure(figsize=(19, 10))
     for i, lst in enumerate(lists):
         plt.plot([int(x) for x in lst], label=name_list[i])
-    
+
     plt.xlabel('Matches')
     plt.ylabel('Points')
     plt.title('Scores')
     plt.legend()
-    plt.grid(True)
+    
+    # Adjust the grid
+    plt.grid(which='both', axis='both', linestyle='-', linewidth=0.5)
+
+    # Set the major ticks
+    plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1))
+    plt.gca().yaxis.set_major_locator(plt.MultipleLocator(5))
 
     # Save plot to a BytesIO object
     buffer = BytesIO()
@@ -52,7 +61,7 @@ def plot_view(request):
     buffer.seek(0)
     plt.close()
 
-    # Create a HTTP response with the image
+    # Create an HTTP response with the image
     return HttpResponse(buffer, content_type='image/png')
 
 
@@ -207,4 +216,5 @@ class PredictionAPIView(ListCreateAPIView):
     queryset = Prediction.objects.all()
     serializer_class = PredictionSerializer
     filterset_fields = ['person']
+
 
