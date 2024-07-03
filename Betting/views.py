@@ -14,6 +14,12 @@ def my_table_view(request):
     return render(request, 'my_table.html', {'table': table})
 
 
+def standardize_pairs(input_list):
+    output_list = []
+    for pair in input_list:
+        sorted_pair = sorted(pair)
+        output_list.append(sorted_pair)
+    return output_list
 
 
 import matplotlib.pyplot as plt
@@ -72,6 +78,7 @@ def plot_view2(request):
         l1 = []
         for pred in person:
             l1.append([pred.Team_1_pred, pred.Team_2_pred])
+        l1 = standardize_pairs(l1)
         return l1
     
     Amin = Prediction.objects.filter(persons_name='Amin')
@@ -103,34 +110,42 @@ def plot_view2(request):
 
         # Step 3: Plot each list of coordinates in its own subplot
         for i, coords in enumerate(pr_list):
-            # Count occurrences of each coordinate
+        # Count occurrences of each coordinate
             coord_counts = defaultdict(int)
             for coord in coords:
                 coord_counts[tuple(coord)] += 1
-            
+
             x_vals = [pair[0] for pair in coords]
             y_vals = [pair[1] for pair in coords]
+
             sizes = [coord_counts[tuple(coord)] * 80 for coord in coords]  # Adjust size multiplier as needed
-            
+
             axes[i].scatter(x_vals, y_vals, s=sizes, alpha=0.5, c='green')
             axes[i].set_title(labels[i])
             axes[i].set_xlabel('Team 1 Goals')
             axes[i].set_ylabel('Team 2 Goals')
-            axes[i].grid(True)
 
+            # Set the x and y axis ticks to be spaced by 1 unit from 0 to 6
+            axes[i].set_xticks(range(0, 7, 1))
+            axes[i].set_yticks(range(0, 7, 1))
 
-# Step 4: Adjust layout and display the plot
-        plt.tight_layout() 
+            # Set the x and y axis limits from 0 to 6
+            axes[i].set_xlim(0, 6)
+            axes[i].set_ylim(0, 6)
 
-        # Step 4: Plot the data
-        # plt.figure(figsize=(19, 10))
+            # Add grid lines with spacing of 1 unit
+            axes[i].grid(True, which='both', linestyle='-', linewidth=0.5)
 
-        # plt.scatter(x_vals, y_vals, s=sizes, alpha=0.5)
-        # plt.xlabel('Team 1 Goals')
-        # plt.ylabel('Team 2 Goals')
-        # plt.title('Scatter Plot of Predictions')
-        # plt.legend()
-        # plt.grid(True)
+            # Set minor ticks for a 1 by 1 grid
+            axes[i].minorticks_on()
+            axes[i].xaxis.set_minor_locator(plt.MultipleLocator(1))
+            axes[i].yaxis.set_minor_locator(plt.MultipleLocator(1))
+
+            # Add grid lines for the minor ticks
+            axes[i].grid(which='minor', linestyle=':', linewidth=0.5)
+
+        # Step 4: Adjust layout and display the plot
+        plt.tight_layout()
         
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
@@ -138,7 +153,7 @@ def plot_view2(request):
         plt.close()
 
         return buffer
-    
+            
     return HttpResponse(draw(pred_list), content_type='image/png')
 
 
@@ -149,6 +164,8 @@ def match_res(request):
 
     for match in matches:
         match_result_list.append([match.Team_1_goals, match.Team_2_goals])
+    
+    match_result_list = standardize_pairs(match_result_list)
 
     coord_counts = defaultdict(int)
     for coord in match_result_list:
@@ -165,10 +182,18 @@ def match_res(request):
         sizes.append(coord_counts[tuple(coord)] * 80)  # Adjust size multiplier as needed
 
     # Step 4: Plot the data
+    
     plt.figure(figsize=(19, 10))
 
     plt.scatter(x_vals, y_vals, s=sizes, alpha=0.5, c='green')
 
+
+    # plt.minorticks_on()
+    plt.gca().xaxis.set_minor_locator(plt.MultipleLocator(5))
+    plt.gca().yaxis.set_minor_locator(plt.MultipleLocator(1))
+
+    # Add grid lines for the minor ticks
+    plt.grid(which='both', linestyle=':', linewidth=0.5)
     # Customization
     plt.xlabel('Team 1 Goals')
     plt.ylabel('Team 2 Goals')
