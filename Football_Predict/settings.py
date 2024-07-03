@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # START-IGNORE
+#haha im 
 SECRET_KEY = 'django-insecure-i^m4=9h#xw9b@9))(l_-z^gk&hbrwh3@_4sj)vmhjdsz_betim'
 # END-IGNORE
 
