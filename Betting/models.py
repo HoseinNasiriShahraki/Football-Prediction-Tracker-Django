@@ -53,8 +53,8 @@ class Match(models.Model):
         
         """Meta definition for MODELNAMEMatch"""
 
-        verbose_name = 'Match'
-        verbose_name_plural = 'Matches'
+        verbose_name = _('Match')
+        verbose_name_plural = _('Matches')
 
 
 
@@ -72,8 +72,8 @@ class Person(models.Model):
     class Meta:
         """Meta definition for Person."""
         ordering = ('-points',)
-        verbose_name = 'Person'
-        verbose_name_plural = 'Persons'
+        verbose_name = _('Person')
+        verbose_name_plural = _('Persons')
 
     def __str__(self):
         return self.name
@@ -110,8 +110,8 @@ class Prediction(models.Model):
     class Meta:
         """Meta definition for MODELNAME."""
 
-        verbose_name = 'Prediction'
-        verbose_name_plural = 'Predictions'
+        verbose_name = _('Prediction')
+        verbose_name_plural = _('Predictions')
 
 
 
@@ -183,4 +183,4 @@ def Pred_name_save():
         pred.match_title = pred.match.title
         pred.save()
 
-Pred_name_save() 
+Pred_name_save()
