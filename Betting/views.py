@@ -105,7 +105,7 @@ def plot_view2(request):
         
     # Step 2: Count occurrences of each coordinate
     def draw(pr_list):  
-        fig, axes = plt.subplots(3, 2, figsize=(12, 12))  # 3 rows, 2 columns
+        fig, axes = plt.subplots(3, 2, figsize=(15, 15))  # 3 rows, 2 columns
         axes = axes.flatten()  # Flatten the 2D array of axes to 1D for easier iteration
 
         # Step 3: Plot each list of coordinates in its own subplot
@@ -118,7 +118,7 @@ def plot_view2(request):
             x_vals = [pair[0] for pair in coords]
             y_vals = [pair[1] for pair in coords]
 
-            sizes = [coord_counts[tuple(coord)] * 80 for coord in coords]  # Adjust size multiplier as needed
+            sizes = [coord_counts[tuple(coord)] * 120 for coord in coords]  # Adjust size multiplier as needed
 
             axes[i].scatter(x_vals, y_vals, s=sizes, alpha=0.5, c='green')
             axes[i].set_title(labels[i])
@@ -179,7 +179,7 @@ def match_res(request):
     for coord in match_result_list:
         x_vals.append(coord[0])
         y_vals.append(coord[1])
-        sizes.append(coord_counts[tuple(coord)] * 80)  # Adjust size multiplier as needed
+        sizes.append(coord_counts[tuple(coord)] * 150)  # Adjust size multiplier as needed
 
     # Step 4: Plot the data
     
@@ -241,5 +241,3 @@ class PredictionAPIView(ListCreateAPIView):
     queryset = Prediction.objects.all()
     serializer_class = PredictionSerializer
     filterset_fields = ['person']
-
-
